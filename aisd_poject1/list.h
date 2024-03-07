@@ -15,7 +15,8 @@ private:
 public:
 	List();
 	void insert(char* data, int index);
-	char* remove(int index);
+	void remove(int index);
+	char* get(int index) const;
 	int get_size() const;
 	~List();
 };
