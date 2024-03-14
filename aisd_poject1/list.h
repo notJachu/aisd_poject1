@@ -16,7 +16,9 @@ public:
 	List();
 	void insert(char* data, int index);
 	void remove(int index);
+	void push_back(char* data);
 	char* get(int index) const;
 	int get_size() const;
+	char* operator[](int index) const;
 	~List();
 };

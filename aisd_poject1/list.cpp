@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "list.h"
 #include <iostream>
 
@@ -9,7 +10,8 @@ List::List() {
 
 List::Node* List::createNode(char* data) {
 	Node* newNode = new Node();
-	newNode->data = data;
+	newNode->data = new char[4];			// this prevents from copying 
+	strncpy(newNode->data, data, 4);	// copy data to newNode->data
 	newNode->next = NULL;
 	return newNode;
 }
@@ -41,6 +43,10 @@ void List::insert(char* data, int index) {
 		current->next = newNode;
 		size += 1;
 	}
+}
+
+void List::push_back(char* data) {
+	insert(data, size);
 }
 
 void List::remove(int index) {
@@ -84,6 +90,10 @@ char* List::get(int index) const {
 
 int List::get_size() const {
 	return size;
+}
+
+char* List::operator[](int index) const {
+	return get(index);
 }
 
 List::~List() {

@@ -1,6 +1,7 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "stack.h"
 #include <iostream>
-#include <vector>
+#include "list.h"
 
 using namespace std;
 
@@ -35,48 +36,49 @@ int main() {
     cout << stack.get() << endl;*/
 	
 	Stack operators;
-	vector<char*> onp;
+	List onp;
 
 	// read input
 	char buffor[4];
 	do {
 		cin >> buffor;
 		if (buffor[0] == '.') break;
+		if (buffor[0] == ',') continue;
 		//cout << buffor << endl;
 		if (det_rank(buffor) == 0) {
 			onp.push_back(buffor);
 		}
 		else if (buffor == "(") {
-			operators.append(buffor[0]);
+			operators.append(buffor);
 		}
 		else if (buffor == ")") {
 			while (operators.get_size() != 0) {
-				char op = operators.pop();
-				if (op == '(') break;
-				else onp.push_back(&op);
+				char* op = operators.pop();
+				if (op[0] == '(') break;
+				else onp.push_back(op);
 			}
 		} 
 		else {
 			while (operators.get_size() != 0) {
-				char op = operators.pop();
-				if (op == '(' || det_rank(&op) < det_rank(buffor)) {
+				char* op = operators.pop();
+				if (op[0] == '(' || det_rank(op) < det_rank(buffor)) {
 					operators.append(op);
 					break;
 				}
-				onp.push_back(&op);
+				onp.push_back(op);
 			}
-			operators.append(buffor[0]);
+			operators.append(buffor);
 		}
-		for (int i = 0; i < onp.size(); i++) {
+		for (int i = 0; i < onp.get_size(); i++) {
 			cout << onp[i] << ' ';
 		}
 		cout << endl;
 	} while (buffor[0] != '.');
 	while (operators.get_size() > 0) {
-		char a = operators.pop();
-		onp.push_back(&a);
+		char* a = operators.pop();
+		onp.push_back(a);
 	}
-	for (int i = 0; i < onp.size(); i++) {
+	for (int i = 0; i < onp.get_size(); i++) {
 		cout << onp[i] << ' ';
 	}
 	return 0;

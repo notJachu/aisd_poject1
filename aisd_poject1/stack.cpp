@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "stack.h"
 #include <iostream>
 
@@ -6,35 +7,36 @@ Stack::Stack() {
 	top = NULL;
 }
 
-Stack::Node* Stack::createNode(char data) {
+Stack::Node* Stack::createNode(char* data) {
 	Node* newNode = new Node;
-	newNode->data = data;
+	newNode->data = new char[4];
+	strncpy(newNode->data, data, 4);
 	newNode->next = NULL;
 	return newNode;
 }
 
-void Stack::append(char data) {
+void Stack::append(char* data) {
 	size += 1;
 	Node* newNode = createNode(data);
 	newNode->next = top;
 	top = newNode;
 }
 
-char Stack::pop() {
+char* Stack::pop() {
 	if (top == NULL) {
 		std::cout << "Stack is empty" << std::endl;
 		return NULL;
 	}
 	else {
 		if (size == 1 || top->next == NULL) {
-			char data = top->data;
+			char* data = top->data;
 			delete top;
 			top = NULL;
 			size = 0;
 			return data;
 		}
 		size -= 1;
-		char data = top->data;
+		char* data = top->data;
 		top = top->next;
 		return data;
 	}
@@ -46,7 +48,7 @@ char Stack::get() const {
 		return NULL;
 	}
 	else {
-		return top->data;
+		return *(top->data);
 	}
 }
 
