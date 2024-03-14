@@ -15,8 +15,17 @@ int det_rank(char* c) {
 	if (c[0] == '+' || c[0] == '-') {
 		return 1;
 	}
-	else if (c == "*" || c == "/") {
+	else if (c[0] == '*' || c[0] == '/') {
 		return 2;
+	}
+	else if (c[0] == 'N') {
+		return 3;
+	}
+	else if (strcmp(c, "MIN") || strcmp(c, "MAX")) {
+		return 4;
+	}
+	else if (c[0] == ')' || c[0] == '(') {
+		return 5;
 	}
 	else {
 		return 0;
@@ -48,10 +57,10 @@ int main() {
 		if (det_rank(buffor) == 0) {
 			onp.push_back(buffor);
 		}
-		else if (buffor == "(") {
+		else if (buffor[0] == '(') {
 			operators.append(buffor);
 		}
-		else if (buffor == ")") {
+		else if (buffor[0] == ')') {
 			while (operators.get_size() != 0) {
 				char* op = operators.pop();
 				if (op[0] == '(') break;
