@@ -7,9 +7,47 @@ using namespace std;
 
 int det_rank(char* c);
 void infix_to_postfix();
-void solve_step();
+void solve_step(List* onp);
 void solve();
 
+void solve_step(List* onp) {
+	static int i = 0;
+	char* a, *b, *op, *buff;
+	do {
+		i += 1;
+	} while (det_rank((*onp)[i]) == 0);
+	op = (*onp)[i];
+	b = (*onp)[i - 1];
+	a = (*onp)[i - 2];
+	int res = 0;
+	if (op[0] == '+') {
+		res = atoi(a) + atoi(b);
+	}
+	else if (op[0] == '-') {
+		res = atoi(a) - atoi(b);
+	}
+	else if (op[0] == '*') {
+		res = atoi(a) * atoi(b);
+	}
+	else if (op[0] == '/') {
+		res = atoi(a) / atoi(b);
+	}
+	else if (op[0] == 'N') {
+		res = -atoi(b);
+	}
+	else if (strcmp(op, "MIN")) {
+		res = atoi(a) < atoi(b) ? atoi(a) : atoi(b);
+	}
+	else if (strcmp(op, "MAX")) {
+		res = atoi(a) > atoi(b) ? atoi(a) : atoi(b);
+	}
+	(*onp).remove(i);
+	(*onp).remove(i - 1);
+	(*onp).remove(i - 2);
+	buff = new char[int(log10(res))];
+	sprintf(buff, "%d", res);
+	(*onp).insert(buff, i - 2);
+}
 
 int det_rank(char* c) {
 	if (c[0] == '+' || c[0] == '-') {
@@ -21,7 +59,7 @@ int det_rank(char* c) {
 	else if (c[0] == 'N') {
 		return 3;
 	}
-	else if (strcmp(c, "MIN") || strcmp(c, "MAX")) {
+	else if (strcmp(c, "MIN") == 0 || strcmp(c, "MAX") == 0) {
 		return 4;
 	}
 	else if (c[0] == ')' || c[0] == '(') {
@@ -87,6 +125,13 @@ int main() {
 		char* a = operators.pop();
 		onp.push_back(a);
 	}
+	for (int i = 0; i < onp.get_size(); i++) {
+		cout << onp[i] << ' ';
+	}
+	cout << endl;
+
+	solve_step(&onp);
+
 	for (int i = 0; i < onp.get_size(); i++) {
 		cout << onp[i] << ' ';
 	}
