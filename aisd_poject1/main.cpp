@@ -86,9 +86,9 @@ int main() {
 			char* op = operators.pop();
 			if (op[0] == '(') {
 				operators.append(op);
-				continue;
 			}
 			else onp.push_back(op);
+			min_max_count->increment();
 			continue;
 		}
 		//cout << buffor << endl;
@@ -112,10 +112,11 @@ int main() {
 					operators.append(op);
 					break;
 				}
+				if (op[0] == 'M') op[3] = min_max_count->pop()[0];
 				onp.push_back(op);
 			}
 			if (strcmp(buffor, "MIN") == 0 || strcmp(buffor, "MAX") == 0) {
-				min_max_count->append((char*)"0");
+				min_max_count->append((char*)"1");
 			}
 			operators.append(buffor);
 		}
@@ -126,6 +127,7 @@ int main() {
 	} while (buffor[0] != '.');
 	while (operators.get_size() > 0) {
 		char* a = operators.pop();
+		if (a[0] == 'M') a[3] = min_max_count->pop()[0];
 		onp.push_back(a);
 	}
 	for (int i = 0; i < onp.get_size(); i++) {
@@ -134,7 +136,7 @@ int main() {
 	cout << endl;
 
 	delete min_max_count;
-	solve_step(&onp);
+	//solve_step(&onp);
 
 	for (int i = 0; i < onp.get_size(); i++) {
 		cout << onp[i] << ' ';

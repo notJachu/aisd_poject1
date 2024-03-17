@@ -14,6 +14,7 @@ public:
 	char* pop();
 	char get() const;
 	int get_size() const;
+	void increment();
 	Stack();
 	~Stack();
 };

@@ -56,6 +56,10 @@ int Stack::get_size() const {
 	return size;
 }
 
+void Stack::increment() {
+	top->data[0] += 1;
+}
+
 Stack::~Stack() {
 	// delete all nodes
 	while (top != NULL) {
