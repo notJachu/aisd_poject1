@@ -1,0 +1,8 @@
+to implement min and max params count
+make a stack of min/max counts and increment always
+the topmost element
+when removing element increment the new topmost by 1
+incrementation should be called when ")" is read
+then while stack != "(" add 1 to count
+then pop min/max operation from stack and append it
+to the rpn stack and increment new count if possible

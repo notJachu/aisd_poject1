@@ -71,26 +71,26 @@ int det_rank(char* c) {
 }
 
 int main() {
-	/*Stack stack;
-	stack.get();
-	stack.pop();
-	stack.append('a');
-	stack.append('b');
-	stack.append('c');
-	cout << stack.get() << endl;
-	cout << stack.get_size() << endl;
-	cout << stack.pop() << endl;
-    cout << stack.get() << endl;*/
 	
 	Stack operators;
 	List onp;
+	Stack* min_max_count = new Stack();
+	int count = 0;
 
 	// read input
-	char buffor[4];
+	char buffor[5];
 	do {
 		cin >> buffor;
 		if (buffor[0] == '.') break;
-		if (buffor[0] == ',') continue;
+		if (buffor[0] == ',') {
+			char* op = operators.pop();
+			if (op[0] == '(') {
+				operators.append(op);
+				continue;
+			}
+			else onp.push_back(op);
+			continue;
+		}
 		//cout << buffor << endl;
 		if (det_rank(buffor) == 0) {
 			onp.push_back(buffor);
@@ -114,6 +114,9 @@ int main() {
 				}
 				onp.push_back(op);
 			}
+			if (strcmp(buffor, "MIN") == 0 || strcmp(buffor, "MAX") == 0) {
+				min_max_count->append((char*)"0");
+			}
 			operators.append(buffor);
 		}
 		for (int i = 0; i < onp.get_size(); i++) {
@@ -130,6 +133,7 @@ int main() {
 	}
 	cout << endl;
 
+	delete min_max_count;
 	solve_step(&onp);
 
 	for (int i = 0; i < onp.get_size(); i++) {

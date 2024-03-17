@@ -9,8 +9,8 @@ Stack::Stack() {
 
 Stack::Node* Stack::createNode(char* data) {
 	Node* newNode = new Node;
-	newNode->data = new char[4];
-	strncpy(newNode->data, data, 4);
+	newNode->data = new char[5];
+	strncpy(newNode->data, data, 5);
 	newNode->next = NULL;
 	return newNode;
 }

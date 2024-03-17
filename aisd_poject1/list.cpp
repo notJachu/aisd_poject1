@@ -10,8 +10,8 @@ List::List() {
 
 List::Node* List::createNode(char* data) {
 	Node* newNode = new Node();
-	newNode->data = new char[4];			// this prevents from copying 
-	strncpy(newNode->data, data, 4);	// copy data to newNode->data
+	newNode->data = new char[5];			// this prevents from copying 
+	strncpy(newNode->data, data, 5);	// copy data to newNode->data
 	newNode->next = NULL;
 	return newNode;
 }
