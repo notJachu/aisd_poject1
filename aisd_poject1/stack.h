@@ -15,6 +15,7 @@ public:
 	char get() const;
 	int get_size() const;
 	void increment();
+	void decrement(int c);
 	Stack();
 	~Stack();
 };

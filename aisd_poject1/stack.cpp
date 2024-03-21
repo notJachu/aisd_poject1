@@ -11,6 +11,7 @@ Stack::Node* Stack::createNode(char* data) {
 	Node* newNode = new Node;
 	newNode->data = new char[5];
 	strncpy(newNode->data, data, 5);
+	newNode->data[4] = '\0';
 	newNode->next = NULL;
 	return newNode;
 }
@@ -24,7 +25,7 @@ void Stack::append(char* data) {
 
 char* Stack::pop() {
 	if (top == NULL) {
-		std::cout << "Stack is empty" << std::endl;
+		//std::cout << "Stack is empty" << std::endl;
 		return NULL;
 	}
 	else {
@@ -44,7 +45,7 @@ char* Stack::pop() {
 
 char Stack::get() const {
 	if (top == NULL) {
-		std::cout << "Stack is empty" << std::endl;
+		//std::cout << "Stack is empty" << std::endl;
 		return NULL;
 	}
 	else {
@@ -57,7 +58,15 @@ int Stack::get_size() const {
 }
 
 void Stack::increment() {
-	top->data[0] += 1;
+	int num = atoi(top->data);
+	num += 1;
+	sprintf(top->data, "%d", num);
+}
+
+void Stack::decrement(int c) {
+	int num = atoi(top->data);
+	num -= c;
+	sprintf(top->data, "%d", num);
 }
 
 Stack::~Stack() {
@@ -67,5 +76,5 @@ Stack::~Stack() {
 		top = top->next;
 		delete temp;
 	}
-	std::cout << "Stack deleted" << std::endl;
+	//std::cout << "Stack deleted" << std::endl;
 }

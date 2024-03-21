@@ -10,15 +10,17 @@ List::List() {
 
 List::Node* List::createNode(char* data) {
 	Node* newNode = new Node();
-	newNode->data = new char[5];			// this prevents from copying 
-	strncpy(newNode->data, data, 5);	// copy data to newNode->data
+	int len = strlen(data);
+	newNode->data = new char[len + 1];			// this prevents from copying 
+	strncpy(newNode->data, data, len);	// copy data to newNode->data
+	newNode->data[len] = '\0';			
 	newNode->next = NULL;
 	return newNode;
 }
 
 void List::insert(char* data, int index) {
 	if (index < 0 || index > size) {
-		std::cout << "Index out of bounds" << std::endl;
+		//std::cout << "Index out of bounds" << std::endl;
 		return;
 	}
 	Node* newNode = createNode(data);
@@ -51,7 +53,7 @@ void List::push_back(char* data) {
 
 void List::remove(int index) {
 	if (index < 0 || index >= size) {
-		std::cout << "Index out of bounds" << std::endl;
+		//std::cout << "Index out of bounds" << std::endl;
 		return;
 	}
 	if (size == 1) {
@@ -78,7 +80,7 @@ void List::remove(int index) {
 
 char* List::get(int index) const {
 	if (index < 0 || index >= size) {
-		std::cout << "Index out of bounds" << std::endl;
+		//std::cout << "Index out of bounds" << std::endl;
 		return NULL;
 	}
 	Node* current = first;
@@ -100,5 +102,5 @@ List::~List() {
 	while (size > 0) {
 		remove(0);
 	}
-	std::cout << "List deleted" << std::endl;
+	//std::cout << "List deleted" << std::endl;
 }
