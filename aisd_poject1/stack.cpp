@@ -9,9 +9,10 @@ Stack::Stack() {
 
 Stack::Node* Stack::createNode(char* data) {
 	Node* newNode = new Node;
-	newNode->data = new char[5];
-	strncpy(newNode->data, data, 5);
-	newNode->data[4] = '\0';
+	int len = strlen(data);
+	newNode->data = new char[len + 1];
+	strncpy(newNode->data, data, len);
+	newNode->data[len] = '\0';
 	newNode->next = NULL;
 	return newNode;
 }
@@ -74,6 +75,7 @@ Stack::~Stack() {
 	while (top != NULL) {
 		Node* temp = top;
 		top = top->next;
+		delete[] temp->data;
 		delete temp;
 	}
 	//std::cout << "Stack deleted" << std::endl;

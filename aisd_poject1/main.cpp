@@ -168,19 +168,21 @@ void infix_to_postfix(List& onp) {
 			while (operators->get_size() != 0) {
 				char* op = operators->pop();
 				if (op[0] == '(') {
-					char* min_max_chech = operators->pop();
-					if (min_max_chech[0] == 'M') {
-						char* tmp = min_max_count->pop();
-						int count = atoi(tmp);
-						int num = strlen(tmp) + strlen(min_max_chech);
-						char* buff = new char[num + 1];
-						buff[num] = '\0';
-						sprintf(buff, "%s%d", min_max_chech, count);
-						onp.push_back(buff);
-						delete[] buff;
+					if (operators->get_size() != 0) {
+						char* min_max_chech = operators->pop();
+						if (min_max_chech[0] == 'M') {
+							char* tmp = min_max_count->pop();
+							int count = atoi(tmp);
+							int num = strlen(tmp) + strlen(min_max_chech);
+							char* buff = new char[num + 1];
+							buff[num] = '\0';
+							sprintf(buff, "%s%d", min_max_chech, count);
+							onp.push_back(buff);
+							delete[] buff;
+						}
+						else
+							operators->append(min_max_chech);
 					}
-					else
-						operators->append(min_max_chech);
 					break;
 				}
 				else {
@@ -277,21 +279,19 @@ int main() {
 
 	for (int i = 0; i < exp_count; i++) {
 
-		List onp;
+		List* onp = new List;
 
-		infix_to_postfix(onp);
+		infix_to_postfix((*onp));
 
-		for (int i = 0; i < onp.get_size(); i++) {
-			cout << onp[i] << ' ';
+		for (int i = 0; i < (*onp).get_size(); i++) {
+			cout << (*onp)[i] << ' ';
 		}
 
 		cout << endl;
 
-		solve(onp);
+		solve((*onp));
 
-		while (onp.get_size() > 0) {
-			onp.remove(0);
-		}
+		delete onp;
 	}
 
 	cout << endl;
