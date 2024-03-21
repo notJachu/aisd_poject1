@@ -14,6 +14,7 @@ void solve_step(List& onp, bool& err) {
 	int i = 0;
 	int rank;
 	int res = 0;
+	int removed = 0;
 	do {
 		rank = det_rank(onp[i]);
 		if (rank == 0) {
@@ -39,6 +40,7 @@ void solve_step(List& onp, bool& err) {
 		onp.remove(i);
 		onp.remove(i - 1);
 		onp.remove(i - 2);
+		removed = 2;
 	}
 	else if (rank == 2) {
 		int a = atoi(onp[i - 2]);
@@ -56,6 +58,7 @@ void solve_step(List& onp, bool& err) {
 		onp.remove(i);
 		onp.remove(i - 1);
 		onp.remove(i - 2);
+		removed = 2;
 	}
 	else if (rank == 3) {
 		if (onp[i][0] == 'N') {
@@ -63,6 +66,7 @@ void solve_step(List& onp, bool& err) {
 			res = a * (-1);
 			onp.remove(i);
 			onp.remove(i - 1);
+			removed = 1;
 		}
 		else {
 			int c = atoi(onp[i - 1]);
@@ -78,6 +82,7 @@ void solve_step(List& onp, bool& err) {
 			onp.remove(i - 1);
 			onp.remove(i - 2);
 			onp.remove(i - 3);
+			removed = 3;
 		}
 	}
 	else if (rank == 4) {
@@ -101,13 +106,21 @@ void solve_step(List& onp, bool& err) {
 		for (int j = 0; j <= count; j++) {
 			onp.remove(i - count);
 		}
+		removed = count;
 		delete[] arr;
 	}
-
-	char* buff = new char[res%10 + 2];
+	int num = 0;
+	if (res == 0) {
+		num = 2;
+	}
+	else {
+		num = res > 0 ? floor(log10(res) + 2) : floor(log10(abs(res)) + 3);
+	}
+	char* buff = new char[num];
 	
 	sprintf(buff, "%d", res);
-	onp.insert(buff, i);
+	onp.insert(buff, i - removed);
+	delete[] buff;
 }
 
 void solve(List& onp) {
@@ -136,7 +149,9 @@ void infix_to_postfix(List& onp) {
 				operators->append(op);
 			}
 			else onp.push_back(op);
-			min_max_count->increment();
+			if (min_max_count->get_size() != 0) {
+				min_max_count->increment();
+			}
 			continue;
 		}
 		if (buffor[0] == 'I' && min_max_count->get_size() != 0) {
