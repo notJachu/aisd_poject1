@@ -29,6 +29,15 @@ void solve_step(List& onp, bool& err) {
 	cout << endl;
 
 	if (rank == 1) {
+		if (onp[i][0] == 'N') {
+			int a = atoi(onp[i - 1]);
+			res = a * (-1);
+			onp.remove(i);
+			onp.remove(i - 1);
+			removed = 1;
+		}
+		else {
+
 		int a = atoi(onp[i - 2]);
 		int b = atoi(onp[i - 1]);
 		if (onp[i][0] == '+') {
@@ -41,6 +50,7 @@ void solve_step(List& onp, bool& err) {
 		onp.remove(i - 1);
 		onp.remove(i - 2);
 		removed = 2;
+		}
 	}
 	else if (rank == 2) {
 		int a = atoi(onp[i - 2]);
@@ -144,13 +154,16 @@ void infix_to_postfix(List& onp) {
 		cin >> buffor;
 		if (buffor[0] == '.') break;
 		if (buffor[0] == ',') {
-			char* op = operators->pop();
-			if (op[0] == '(') {
-				operators->append(op);
-			}
-			else onp.push_back(op);
 			if (min_max_count->get_size() != 0) {
 				min_max_count->increment();
+			}
+			while (operators->get_size() != 0) {
+				char* op = operators->pop();
+				if (op[0] == '(') {
+					operators->append(op);
+					break;
+				}
+				else onp.push_back(op);
 			}
 			continue;
 		}
@@ -160,6 +173,13 @@ void infix_to_postfix(List& onp) {
 		//cout << buffor << endl;
 		if (det_rank(buffor) == 0) {
 			onp.push_back(buffor);
+			if (operators->get_size() != 0) {
+				char* op = operators->pop();
+				if (op[0] == 'N') {
+					onp.push_back(op);
+				}
+				else operators->append(op);
+			}
 		}
 		else if (buffor[0] == '(') {
 			operators->append(buffor);
@@ -204,7 +224,7 @@ void infix_to_postfix(List& onp) {
 		else {
 			while (operators->get_size() != 0) {
 				char* op = operators->pop();
-				if (op[0] == '(' || det_rank(op) < det_rank(buffor)) {
+				if (op[0] == '(' || det_rank(op) < det_rank(buffor) || (det_rank(op) == 1 && buffor[0] == 'N')) {
 					operators->append(op);
 					break;
 				}
@@ -251,13 +271,13 @@ void infix_to_postfix(List& onp) {
 }
 
 int det_rank(char* c) {
-	if (c[0] == '+' || (c[0] == '-' && strlen(c) == 1)) {
+	if (c[0] == '+' || (c[0] == '-' && strlen(c) == 1) || c[0] == 'N') {
 		return 1;
 	}
 	else if (c[0] == '*' || c[0] == '/') {
 		return 2;
 	}
-	else if (c[0] == 'N' || c[0] == 'I') {
+	else if (c[0] == 'I') {
 		return 3;
 	}
 	else if (strstr(c, "MIN") != NULL || strstr(c, "MAX") != NULL) {
