@@ -53,22 +53,31 @@ void solve_step(List& onp, bool& err) {
 		}
 	}
 	else if (rank == 2) {
-		int a = atoi(onp[i - 2]);
-		int b = atoi(onp[i - 1]);
-		if (onp[i][0] == '*') {
-			res = a * b;
+		if (onp[i][0] == 'N') {
+			int a = atoi(onp[i - 1]);
+			res = a * (-1);
+			onp.remove(i);
+			onp.remove(i - 1);
+			removed = 1;
 		}
 		else {
-			if (b == 0) {
-				err = true;
-				return;
+			int a = atoi(onp[i - 2]);
+			int b = atoi(onp[i - 1]);
+			if (onp[i][0] == '*') {
+				res = a * b;
 			}
-			res = a / b;
+			else {
+				if (b == 0) {
+					err = true;
+					return;
+				}
+				res = a / b;
+			}
+			onp.remove(i);
+			onp.remove(i - 1);
+			onp.remove(i - 2);
+			removed = 2;
 		}
-		onp.remove(i);
-		onp.remove(i - 1);
-		onp.remove(i - 2);
-		removed = 2;
 	}
 	else if (rank == 3) {
 		if (onp[i][0] == 'N') {
@@ -273,10 +282,10 @@ void infix_to_postfix(List& onp) {
 }
 
 int det_rank(char* c) {
-	if (c[0] == '+' || (c[0] == '-' && strlen(c) == 1) || c[0] == 'N') {
+	if (c[0] == '+' || (c[0] == '-' && strlen(c) == 1)) {
 		return 1;
 	}
-	else if (c[0] == '*' || c[0] == '/') {
+	else if (c[0] == '*' || c[0] == '/' || c[0] == 'N') {
 		return 2;
 	}
 	else if (c[0] == 'I') {
