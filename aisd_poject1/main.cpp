@@ -200,8 +200,10 @@ void infix_to_postfix(List& onp) {
 							onp.push_back(buff);
 							delete[] buff;
 						}
-						else
-							operators->append(min_max_chech);
+						else if (min_max_chech[0] == 'N') {
+							onp.push_back(min_max_chech);
+						}
+						else operators->append(min_max_chech);
 					}
 					break;
 				}
