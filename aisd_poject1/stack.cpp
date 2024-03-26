@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "stack.h"
 #include <iostream>
+#include <cstring>
 
 Stack::Stack() {
 	size = 0;
@@ -47,7 +48,7 @@ char* Stack::pop() {
 char Stack::get() const {
 	if (top == NULL) {
 		//std::cout << "Stack is empty" << std::endl;
-		return NULL;
+		return ' ';
 	}
 	else {
 		return *(top->data);
@@ -75,8 +76,13 @@ Stack::~Stack() {
 	while (top != NULL) {
 		Node* temp = top;
 		top = top->next;
+		for (int i = 0; i < strlen(temp->data); i++) {
+			delete &temp->data[i];
+			temp->data[i] = NULL;
+		}
 		delete[] temp->data;
-		delete temp;
+		delete temp;					
+		temp = NULL;
 	}
 	//std::cout << "Stack deleted" << std::endl;
 }

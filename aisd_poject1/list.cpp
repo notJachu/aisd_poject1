@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "list.h"
 #include <iostream>
+#include <cstring>
 
 List::List() {
 	size = 0;
@@ -99,8 +100,11 @@ char* List::operator[](int index) const {
 }
 
 List::~List() {
-	while (size > 0) {
-		remove(0);
+	while (first != NULL) {
+		Node* temp = first;
+		first = first->next;
+		delete[] temp->data;
+		delete temp;
 	}
 	//std::cout << "List deleted" << std::endl;
 }

@@ -2,8 +2,12 @@
 #include "stack.h"
 #include <iostream>
 #include "list.h"
+#include <cmath>
+#include <cstring>
+#include <time.h>
 
 using namespace std;
+
 
 int det_rank(char* c);
 void infix_to_postfix(List& onp);
@@ -182,13 +186,13 @@ void infix_to_postfix(List& onp) {
 		//cout << buffor << endl;
 		if (det_rank(buffor) == 0) {
 			onp.push_back(buffor);
-			if (operators->get_size() != 0) {
+			/*if (operators->get_size() != 0) {
 				char* op = operators->pop();
 				if (op[0] == 'N') {
 					onp.push_back(op);
 				}
 				else operators->append(op);
-			}
+			}*/
 		}
 		else if (buffor[0] == '(') {
 			operators->append(buffor);
@@ -235,7 +239,7 @@ void infix_to_postfix(List& onp) {
 		else {
 			while (operators->get_size() != 0) {
 				char* op = operators->pop();
-				if (op[0] == '(' || det_rank(op) < det_rank(buffor) || (det_rank(op) == 1 && buffor[0] == 'N')) {
+				if (op[0] == '(' || det_rank(op) < det_rank(buffor) || (det_rank(op) == 2 && buffor[0] == 'N')) {
 					operators->append(op);
 					break;
 				}
@@ -303,8 +307,13 @@ int det_rank(char* c) {
 }
 
 int main() {
+
+	ios_base::sync_with_stdio(false);
 	
 	int exp_count = 0;
+
+	double time = clock();
+
 
 	cin >> exp_count;
 
@@ -327,6 +336,9 @@ int main() {
 
 	cout << endl;
 	
+	double time2 = clock();
+
+	cout << "Time: " << (time2 - time) / CLOCKS_PER_SEC << endl;
 
 	return 0;
 }
