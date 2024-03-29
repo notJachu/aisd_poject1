@@ -9,6 +9,7 @@
 *.user
 *.userosscache
 *.sln.docstates
+*.in
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -361,3 +362,22 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/aisd_poject1/.valgrind-out3.txt.swp
+/aisd_poject1/0.out
+/aisd_poject1/1.out
+/aisd_poject1/2.out
+/aisd_poject1/3.out
+/aisd_poject1/4.out
+/aisd_poject1/5.out
+/aisd_poject1/6.out
+/aisd_poject1/7.out
+/aisd_poject1/8.out
+/aisd_poject1/9.out
+/aisd_poject1/input.txt
+/aisd_poject1/out
+/aisd_poject1/out2
+/aisd_poject1/test
+/aisd_poject1/test2.txt
+/aisd_poject1/valgrind-out.txt
+/aisd_poject1/valgrind-out2.txt
+/aisd_poject1/valgrind-out3.txt
